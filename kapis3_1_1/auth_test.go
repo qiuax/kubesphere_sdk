@@ -1,4 +1,4 @@
-package kapis
+package kapis3_1_1
 
 import (
 	"encoding/json"
@@ -13,5 +13,5 @@ func TestAuth(t *testing.T) {
 		t.Fatal("err:", err.Error())
 	}
 	marshal, _ := json.Marshal(info)
-	log.Println("result: ", string(marshal))
+	log.Println("resultStr: ", string(marshal))
 }

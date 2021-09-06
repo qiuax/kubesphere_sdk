@@ -1,4 +1,4 @@
-package kapis
+package kapis3_1_1
 
 import (
 	"encoding/json"

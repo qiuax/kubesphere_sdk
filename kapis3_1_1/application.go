@@ -1,4 +1,4 @@
-package kapis
+package kapis3_1_1
 
 import (
 	"encoding/json"
@@ -10,8 +10,8 @@ import (
 )
 
 func CreateApplication(conf string) {
-	//u := "192.168.1.177:32517/kapis/openpitrix.io/v1/workspaces/testapi/clusters/admin/namespaces/default/applications"
-	u := fmt.Sprintf("http://192.168.1.177:32517/kapis/openpitrix.io/v1/workspaces/testapi/namespaces/getapi/applications")
+	//u := "192.168.1.177:32517/kapis3_1_1/openpitrix.io/v1/workspaces/testapi/clusters/admin/namespaces/default/applications"
+	u := fmt.Sprintf("http://192.168.1.177:32517/kapis3_1_1/openpitrix.io/v1/workspaces/testapi/namespaces/getapi/applications")
 	m := map[string]string{
 		"app_id":     "app-x3q3640n76rw47-store",
 		"name":       "nginx-n9ueyu",

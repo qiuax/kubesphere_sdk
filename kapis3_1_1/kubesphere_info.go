@@ -1,4 +1,4 @@
-package kapis
+package kapis3_1_1
 
 // ksInfo kubesphere 的信息
 type ksInfo struct {
