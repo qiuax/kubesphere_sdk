@@ -5,6 +5,7 @@ type ksInfo struct {
 	Username string // 用户名 初始化注入
 	Password string // 密码 初始化注入
 	URL      string // 域名/ip  初始化注入
+	Token    string
 }
 
 type OauthTokenResp struct {

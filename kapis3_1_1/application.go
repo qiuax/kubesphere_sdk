@@ -1,52 +1,54 @@
 package kapis3_1_1
 
 import (
-	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
-	"log"
+	"kubesphere_sdk/lib"
 	"net/http"
-	"strings"
 )
 
-func CreateApplication(conf string) {
-	//u := "192.168.1.177:32517/kapis3_1_1/openpitrix.io/v1/workspaces/testapi/clusters/admin/namespaces/default/applications"
-	u := fmt.Sprintf("http://192.168.1.177:32517/kapis3_1_1/openpitrix.io/v1/workspaces/testapi/namespaces/getapi/applications")
-	m := map[string]string{
-		"app_id":     "app-x3q3640n76rw47-store",
-		"name":       "nginx-n9ueyu",
-		"version_id": "appv-x795nnrnlx8qmy",
-		//"conf":"replicaCount: 1\nimage:\n  html: {}\n  nginx:\n    repository: nginx\n    pullPolicy: IfNotPresent\nnameOverride: ''\nfullnameOverride: ''\nservice:\n  name: http\n  type: ClusterIP\n  port: 80\ningress:\n  enabled: false\n  annotations: {}\n  paths:\n    - /\n  hosts:\n    - nginx.local\n  tls: []\nextraVolumes: []\nextraVolumeMounts: []\nextraInitContainers: []\nreadinessProbe:\n  path: /\n  initialDelaySeconds: 5\n  periodSeconds: 3\n  failureThreshold: 6\nlivenessProbe:\n  path: /\n  initialDelaySeconds: 5\n  periodSeconds: 3\nresources: {}\nconfigurationFile: {}\nextraConfigurationFiles: {}\nnodeSelector: {}\ntolerations: []\naffinity: {}\ntests:\n  enabled: false\n",
-		"conf": conf,
-	}
-	marshal, _ := json.Marshal(m)
-	body := strings.NewReader(string(marshal))
-	req, err := http.NewRequest(http.MethodPost, u, body)
-	if err != nil {
-		//logger.Error(logger.LOGGER_MSG, logger.String("kubesphere ListAllApplications newRequest失败,err ", err.Error()))
-		log.Println("1------------------>", err.Error())
-		return
-	}
-	tk := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwidG9rZW5fdHlwZSI6ImFjY2Vzc190b2tlbiIsImV4cCI6MTYzMDkxODQwMCwiaWF0IjoxNjMwOTExMjAwLCJpc3MiOiJrdWJlc3BoZXJlIiwibmJmIjoxNjMwOTExMjAwfQ.UUQZgkyCScZsKAW9i-wP1S_pxFIolHhyrFqEywpaVJw"
-	//req.Header.Set("Authorization", tk)
+type CreateApplicationReq struct {
+	Workspaces string `json:"workspaces"`
+	Namespaces string `json:"namespaces"`
+	AppID      string `json:"app_id"`
+	Name       string `json:"name"`
+	VersionID  string `json:"version_id"`
+	Conf       string `json:"conf"`
+}
 
-	req.Header.Add("Authorization", " Bearer "+tk)
-	req.Header.Set("Content-Type", "application/json")
-	do, err := http.DefaultClient.Do(req)
+func (ks *ksInfo) CreateApplication(request *CreateApplicationReq) error {
+	u := fmt.Sprintf("%s/kapis/openpitrix.io/v1/workspaces/%s/namespaces/%s/applications", ks.URL, request.Workspaces, request.Namespaces)
+	req := new(lib.Request)
+	req.SetURL(u)
+	body := &struct {
+		AppID     string `json:"app_id"`
+		Name      string `json:"name"`
+		VersionID string `json:"version_id"`
+		Conf      string `json:"conf"`
+	}{
+		AppID:     request.AppID,
+		Name:      request.Name,
+		VersionID: request.VersionID,
+		Conf:      request.Conf,
+	}
+	req.SetHeader("Content-Type", "application/json")
+	req.SetHeader("Authorization", " Bearer "+ks.Token)
+	req.SetJSONBody(&body)
+	resp, err := req.POST()
 	if err != nil {
-		//logger.Error(logger.LOGGER_MSG, logger.String("kubesphere ListAllApplications Do 失败,err ", err.Error()))
-		log.Println("2----------->", err.Error())
-		return
+		return err
 	}
-
-	if do.StatusCode != http.StatusOK {
-		log.Println("3----------->", do.StatusCode)
-
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		b, _ := ioutil.ReadAll(resp.Body)
+		return errors.New(fmt.Sprintf("err message: %s", string(b)))
 	}
-	result, err := ioutil.ReadAll(do.Body)
-	if err != nil {
-		log.Println("4----------->", err.Error())
-		return
-	}
-	log.Println("============>", string(result))
+	//result := make(map[string]string)
+	//if err := resp.BindJSON(&result); err != nil {
+	//	return err
+	//}
+	//marshal, _ := json.Marshal(result)
+	//log.Println("-------->",string(marshal))
+	return nil
 }
