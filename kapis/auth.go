@@ -1,17 +1,16 @@
-package auth
+package kapis
 
 import (
 	"encoding/json"
 	"errors"
 	"fmt"
 	"io/ioutil"
-	"kubesphere_sdk/ks"
 	"kubesphere_sdk/lib"
 	"net/http"
 )
 
-func GetTokenInfo(k *ks.KsInfo) (*ks.OauthTokenResp, error) {
-	var body *ks.OauthTokenResp
+func (k *ksInfo) GetTokenInfo() (*OauthTokenResp, error) {
+	var body *OauthTokenResp
 	u := k.URL + "/oauth/token"
 	req := new(lib.Request)
 	req.SetURL(u)

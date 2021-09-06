@@ -1,7 +1,7 @@
-package ks
+package kapis
 
-// KsInfo kubesphere 的信息
-type KsInfo struct {
+// ksInfo kubesphere 的信息
+type ksInfo struct {
 	Username string // 用户名 初始化注入
 	Password string // 密码 初始化注入
 	URL      string // 域名/ip  初始化注入
@@ -14,8 +14,8 @@ type OauthTokenResp struct {
 	ExpiresIn    int    `json:"expires_in"` // 7200 秒
 }
 
-func NewKubeSphereInfo(username, password, url string) *KsInfo {
-	return &KsInfo{
+func NewKubeSphereInfo(username, password, url string) *ksInfo {
+	return &ksInfo{
 		Username: username,
 		Password: password,
 		URL:      url,
