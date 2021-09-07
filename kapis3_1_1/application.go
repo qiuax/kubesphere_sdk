@@ -17,7 +17,7 @@ type CreateApplicationReq struct {
 	Conf       string `json:"conf"`
 }
 
-func (ks *ksInfo) CreateApplication(request *CreateApplicationReq) error {
+func (ks *KSInfo) CreateApplication(request *CreateApplicationReq) error {
 	u := fmt.Sprintf("%s/kapis/openpitrix.io/v1/workspaces/%s/namespaces/%s/applications", ks.URL, request.Workspaces, request.Namespaces)
 	req := new(lib.Request)
 	req.SetURL(u)

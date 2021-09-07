@@ -9,7 +9,7 @@ import (
 	"net/http"
 )
 
-func (k *ksInfo) GetTokenInfo() (*OauthTokenResp, error) {
+func (k *KSInfo) GetTokenInfo() (*OauthTokenResp, error) {
 	var body *OauthTokenResp
 	u := k.URL + "/oauth/token"
 	req := new(lib.Request)
