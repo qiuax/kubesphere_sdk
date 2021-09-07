@@ -54,7 +54,7 @@ type GetAppTemplatesResp struct {
 	TotalCount int                `json:"total_count"`
 }
 
-// 获取所有的资源
+// GetActiveAppTemplates 获取已激活的应用
 func (ks *KSInfo) GetActiveAppTemplates(req *GetAppTemplatesReq) (*GetAppTemplatesResp, error) {
 	var result *GetAppTemplatesResp
 	page := req.Page
