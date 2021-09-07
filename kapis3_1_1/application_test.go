@@ -26,7 +26,7 @@ func TestCreateApplication(t *testing.T) {
 }
 
 func TestDeleteApplication(t *testing.T) {
-	ksInfo := NewKubeSphereInfo("admin", "2021", "http://127.0.0.1:32517")
+	ksInfo := NewKubeSphereInfo("admin", "Marsone-2021", "http://192.168.1.177:32517")
 	info, err1 := ksInfo.GetTokenInfo()
 	if err1 != nil {
 		t.Fatal("err:", err1.Error())
@@ -36,7 +36,7 @@ func TestDeleteApplication(t *testing.T) {
 		Workspaces:   "testapi",
 		Namespaces:   "getapi",
 		Cluster:      "default",
-		AppClusterID: "rls-wrn6o92jymll49",
+		AppClusterID: "rls-wown7y2y0qll49",
 	}
 	err := ksInfo.DeleteApplication(req)
 	if err != nil {
