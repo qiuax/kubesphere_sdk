@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/qiuax/kubesphere_sdk/lib"
 	"io/ioutil"
 	"net/http"
 )
@@ -12,7 +11,7 @@ import (
 func (k *KSInfo) GetTokenInfo() (*OauthTokenResp, error) {
 	var body *OauthTokenResp
 	u := k.URL + "/oauth/token"
-	req := new(lib.Request)
+	req := new(Request)
 	req.SetURL(u)
 	//body :=
 	req.SetHeader("Content-Type", "application/x-www-form-urlencoded")

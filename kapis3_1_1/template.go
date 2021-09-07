@@ -3,7 +3,6 @@ package kapis3_1_1
 import (
 	"errors"
 	"fmt"
-	"github.com/qiuax/kubesphere_sdk/lib"
 	"io/ioutil"
 	"net/http"
 )
@@ -69,7 +68,7 @@ func (ks *KSInfo) GetActiveAppTemplates(req *GetAppTemplatesReq) (*GetAppTemplat
 	p := fmt.Sprintf("/kapis/openpitrix.io/v1/apps?limit=%s&page=%s&conditions=status=active,repo_id=repo-helm&reverse=true", pageSize, page)
 	endpointURL = endpointURL + p
 
-	r := new(lib.Request)
+	r := new(Request)
 	r.SetURL(endpointURL)
 	r.SetHeader("Authorization", " Bearer "+ks.Token)
 	resp, err := r.GET()

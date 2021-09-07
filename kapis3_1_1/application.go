@@ -3,7 +3,6 @@ package kapis3_1_1
 import (
 	"errors"
 	"fmt"
-	"github.com/qiuax/kubesphere_sdk/lib"
 	"io/ioutil"
 	"net/http"
 )
@@ -19,7 +18,7 @@ type CreateApplicationReq struct {
 
 func (ks *KSInfo) CreateApplication(request *CreateApplicationReq) error {
 	u := fmt.Sprintf("%s/kapis/openpitrix.io/v1/workspaces/%s/namespaces/%s/applications", ks.URL, request.Workspaces, request.Namespaces)
-	req := new(lib.Request)
+	req := new(Request)
 	req.SetURL(u)
 	body := &struct {
 		AppID     string `json:"app_id"`
@@ -66,7 +65,7 @@ func (ks *KSInfo) DeleteApplication(req *DeleteApplicationReq) error {
 
 	}
 
-	r := new(lib.Request)
+	r := new(Request)
 	r.SetURL(endpointURL)
 	r.SetHeader("Content-Type", "application/x-www-form-urlencoded")
 	r.SetHeader("Authorization", " Bearer "+ks.Token)
@@ -140,7 +139,7 @@ func (ks *KSInfo) GetRunningApplication(req *GetRunningApplicationReq) (*GetRunn
 	p := fmt.Sprintf("/kapis/openpitrix.io/v1/workspaces/%s/namespaces/%s/applications?limit=%s&page=%s", req.Workspaces, req.Namespaces, pageSize, page)
 	endpointURL = endpointURL + p
 
-	r := new(lib.Request)
+	r := new(Request)
 	r.SetURL(endpointURL)
 	r.SetHeader("Authorization", " Bearer "+ks.Token)
 	resp, err := r.GET()

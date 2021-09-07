@@ -1,4 +1,4 @@
-package lib
+package kapis3_1_1
 
 import (
 	"bytes"
