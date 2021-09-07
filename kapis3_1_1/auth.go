@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/qiuax/kubesphere_sdk/lib"
 	"io/ioutil"
-	"kubesphere_sdk/lib"
 	"net/http"
 )
 

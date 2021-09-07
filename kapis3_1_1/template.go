@@ -3,8 +3,8 @@ package kapis3_1_1
 import (
 	"errors"
 	"fmt"
+	"github.com/qiuax/kubesphere_sdk/lib"
 	"io/ioutil"
-	"kubesphere_sdk/lib"
 	"net/http"
 )
 
