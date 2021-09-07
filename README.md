@@ -1,2 +1,2 @@
 # kubesphere_sdk
-kubesphere  api sdk，支持的版本 kubesphere 3.1
+kubesphere  api sdk，支持的版本 kubesphere 3.1.1
