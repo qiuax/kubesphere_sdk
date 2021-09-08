@@ -123,6 +123,7 @@ type RunningApplicationData struct {
 	App     *App     `json:"app"`
 }
 
+// 192.168.1.177:32517/kapis/openpitrix.io/v1/applications?limit=-1  所有空间下的。
 // GetRunningApplication 正在运行中的 http://192.168.1.177:30880
 func (ks *KSInfo) GetRunningApplication(req *GetRunningApplicationReq) (*GetRunningApplicationResp, error) {
 	var result *GetRunningApplicationResp
