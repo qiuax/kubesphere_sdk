@@ -158,3 +158,43 @@ func (ks *KSInfo) GetRunningApplication(req *GetRunningApplicationReq) (*GetRunn
 	}
 	return result, nil
 }
+
+type ApplicationFileResp struct {
+	Files     Files  `json:"files"`
+	VersionID string `json:"version_id"`
+}
+type Files struct {
+	Helmignore          string `json:".helmignore"`
+	Chart               string `json:"Chart.yaml"`
+	TemplatesNOTES      string `json:"templates/NOTES.txt"`
+	TemplatesHelpers    string `json:"templates/_helpers.tpl"`
+	TemplatesDeployment string `json:"templates/deployment.yaml"`
+	Values              string `json:"values.yaml"`
+}
+
+// GetApplicationFile 返回的是base64编码的,用的时候需要解码
+func (ks *KSInfo) GetApplicationFile(appID, versionID string) string {
+	endpointURL := ks.URL
+
+	p := fmt.Sprintf("/kapis/openpitrix.io/v1/apps/%s/versions/%s/files", appID, versionID)
+	endpointURL = endpointURL + p
+
+	r := new(Request)
+	r.SetURL(endpointURL)
+	r.SetHeader("Authorization", " Bearer "+ks.Token)
+	resp, err := r.GET()
+	if err != nil {
+		return ""
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		b, _ := ioutil.ReadAll(resp.Body)
+		return string(b)
+	}
+
+	var result *ApplicationFileResp
+	if err := resp.BindJSON(&result); err != nil {
+		return ""
+	}
+	return result.Files.Values
+}
