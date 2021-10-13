@@ -82,10 +82,11 @@ func (ks *KSInfo) DeleteApplication(req *DeleteApplicationReq) error {
 }
 
 type GetRunningApplicationReq struct {
-	Workspaces string
-	Namespaces string
-	Page       string
-	PageSize   string
+	Workspaces      string
+	Namespaces      string
+	Page            string
+	PageSize        string
+	ApplicationName string // 应用名字,扩展使用
 }
 
 type GetRunningApplicationResp struct {
@@ -123,7 +124,7 @@ type RunningApplicationData struct {
 	App     *App     `json:"app"`
 }
 
-// 192.168.1.177:32517/kapis/openpitrix.io/v1/applications?limit=-1  所有空间下的。
+// GetRunningApplication 192.168.1.177:32517/kapis/openpitrix.io/v1/applications?limit=-1  所有空间下的。
 // GetRunningApplication 正在运行中的 http://192.168.1.177:30880
 func (ks *KSInfo) GetRunningApplication(req *GetRunningApplicationReq) (*GetRunningApplicationResp, error) {
 	var result *GetRunningApplicationResp
@@ -138,6 +139,33 @@ func (ks *KSInfo) GetRunningApplication(req *GetRunningApplicationReq) (*GetRunn
 		page = "1"
 	}
 	p := fmt.Sprintf("/kapis/openpitrix.io/v1/workspaces/%s/namespaces/%s/applications?limit=%s&page=%s", req.Workspaces, req.Namespaces, pageSize, page)
+	endpointURL = endpointURL + p
+
+	r := new(Request)
+	r.SetURL(endpointURL)
+	r.SetHeader("Authorization", " Bearer "+ks.Token)
+	resp, err := r.GET()
+	if err != nil {
+		return result, err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		b, _ := ioutil.ReadAll(resp.Body)
+		return result, errors.New(fmt.Sprintf("err message: %s", string(b)))
+	}
+
+	if err := resp.BindJSON(&result); err != nil {
+		return result, err
+	}
+	return result, nil
+}
+
+// GetRunningApplicationByName 根据名字过滤
+func (ks *KSInfo) GetRunningApplicationByName(req *GetRunningApplicationReq) (*GetRunningApplicationResp, error) {
+	var result *GetRunningApplicationResp
+	endpointURL := ks.URL
+
+	p := fmt.Sprintf("/kapis/openpitrix.io/v1/workspaces/%s/namespaces/%s/applications?conditions=keyword=%s", req.Workspaces, req.Namespaces, req.ApplicationName)
 	endpointURL = endpointURL + p
 
 	r := new(Request)
