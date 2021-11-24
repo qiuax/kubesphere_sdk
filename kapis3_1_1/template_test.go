@@ -8,7 +8,7 @@ import (
 
 func TestKSInfo_GetActiveAppTemplates(t *testing.T) {
 	ksInfo := NewKubeSphereInfo("admin", "2021", "http://127.0.0.1:32517")
-	info, err1 := ksInfo.GetTokenInfo()
+	info, err1 := ksInfo.GetTokenInfo2()
 	if err1 != nil {
 		t.Fatal("err:", err1.Error())
 	}

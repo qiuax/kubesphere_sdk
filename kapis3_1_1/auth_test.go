@@ -7,8 +7,10 @@ import (
 )
 
 func TestAuth(t *testing.T) {
-	ksInfo := NewKubeSphereInfo("admin", "admin", "http://127.0.0.1:32517")
-	info, err := ksInfo.GetTokenInfo()
+	ksInfo := NewKubeSphereInfo("admin", "2021", "http://192.168.1.17:32517")
+	//ksInfo := NewKubeSphereInfo("admin", "Marsone-2021", "http://159.75.202.72")
+	//info, err := ksInfo.GetTokenInfo()
+	info, err := ksInfo.GetTokenInfo2()
 	if err != nil {
 		t.Fatal("err:", err.Error())
 	}

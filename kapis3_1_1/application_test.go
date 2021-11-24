@@ -79,16 +79,19 @@ func TestGetApplicationFile(t *testing.T) {
 }
 
 func TestGetRunningApplicationByName(t *testing.T) {
-	ksInfo := NewKubeSphereInfo("admin", "2021", "http://192.168.111.177:32517")
+	ksInfo := NewKubeSphereInfo("admin", "Marsone-2021", "http://192.168.1.177:32517")
 	info, err1 := ksInfo.GetTokenInfo()
 	if err1 != nil {
 		t.Fatal("err:", err1.Error())
 	}
 	ksInfo.Token = info.AccessToken
 	req := &GetRunningApplicationReq{
-		Workspaces:      "mint",
-		Namespaces:      "edge",
-		ApplicationName: "eba",
+		//Workspaces:      "mint",
+		//Namespaces:      "edge",
+		//ApplicationName: "eba",
+		Workspaces:      "testapi",
+		Namespaces:      "getapi",
+		ApplicationName: "nginx",
 	}
 	result, _ := ksInfo.GetRunningApplicationByName(req)
 	marshal, _ := json.Marshal(result)
