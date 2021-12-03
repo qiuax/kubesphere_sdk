@@ -14,8 +14,6 @@ func (k *KSInfo) GetTokenInfo() (*OauthTokenResp, error) {
 	u := k.URL + "/oauth/token"
 	req := new(Request)
 	req.SetURL(u)
-	log.Println("url-------->", u)
-	log.Println("body-------->", fmt.Sprintf("grant_type=password&username=%s&password=%s", k.Username, k.Password))
 
 	//body :=
 	req.SetHeader("Content-Type", "application/x-www-form-urlencoded")
